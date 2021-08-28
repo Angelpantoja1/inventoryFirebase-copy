@@ -11,103 +11,22 @@ firebase.initializeApp(firebaseConfig);
 
 var db = firebase.firestore();
 
-let brand = document.getElementById("brand")
-let buttons = document.getElementById("buttons")
-let color = document.getElementById("color")
-let condition = document.getElementById("condition")
-let logo = document.getElementById("logo")
-let material = document.getElementById("material")
-let size = document.getElementById("size")
-let type = document.getElementById("type")
-// ---------SHOES ---------------------//
-let shoesBrand = document.getElementById("shoesBrand")
-let shoesColor = document.getElementById("shoesColor")
-let shoesCondition = document.getElementById("shoesCondition")
-let shoesLaces = document.getElementById("shoesLaces")
-let shoesLogo = document.getElementById("shoesLogo")
-let shoesSize = document.getElementById("shoesSize")
-let shoesType = document.getElementById("shoesType")
-let shoesWearability = document.getElementById("shoesWearability")
-//-------------FORMS----------------------//
-let shirtForm = document.getElementById("shirtForm")
-let shoesForm = document.getElementById("shoesForm")
-
-let cancelBtn = document.getElementById("cancelBtn")
-let selectedCollection = document.getElementById("selectedCollection")
-
 let collection;
 let selectedItem = "Shirts";
+let injectTable;
+let tableTitle
 
+let selectedCollection = document.getElementById("selectedCollection")
+let addItem = document.getElementById("addAnItem");
+let injectForm = document.getElementById("injectForm");
 selectedCollection.addEventListener("change", ({ target } = e) => {
-    let { value } = target;;
+    let { value } = target;
     selectedItem = value
     buildTable(value)
 })
-document.getElementById("addAnItem").addEventListener("click", () => {
-
-    selectedItem == "Shirts" ? magic(selectedItem, shirtForm, shoesForm) : magic(selectedItem, shoesForm, shirtForm)
-})
-
-function magic(collectionToGet, remove, add) {
-    collection = db.collection(collectionToGet);
-    remove.classList.remove("d-none");
-    add.classList.add("d-none");
-    selectedCollection.classList.add("d-none");
-    cancelBtn.classList.remove("d-none")
-}
-cancelBtn.addEventListener("click", () => {
-    [shoesBrand,
-        shoesBrand,
-        shoesCondition,
-        shoesLaces,
-        shoesLogo,
-        shoesSize,
-        shoesType,
-        shoesWearability,
-        brand,
-        buttons,
-        color,
-        condition,
-        logo,
-        material,
-        size,
-        type].map(x => x.value = "")
-    shirtForm.classList.add("d-none");
-    shoesForm.classList.add("d-none");
-    cancelBtn.classList.add("d-none");
-    selectedCollection.classList.remove("d-none");
-})
-
-document.getElementById("addShoesItem").addEventListener('click', () => {
-    addItemtoColleections({
-        Brand: shoesBrand.value,
-        Color: shoesBrand.value,
-        Condition: shoesCondition.value,
-        Laces: shoesLaces.value,
-        Logo: shoesLogo.value,
-        Size: shoesSize.value,
-        Type: shoesType.value,
-        Wearability: shoesWearability.value,
-    })
-    shoesForm.classList.add("d-none");
-    selectedCollection.classList.remove("d-none");
-    cancelBtn.classList.add("d-none");
-})
-
-document.getElementById("addItem").addEventListener('click', () => {
-    addItemtoColleections({
-        Brand: brand.value,
-        Buttons: buttons.value,
-        Color: color.value,
-        Condition: condition.value,
-        Logo: logo.value,
-        Material: material.value,
-        Size: size.value,
-        Type: type.value,
-    })
-    shirtForm.classList.add("d-none");
-    selectedCollection.classList.remove("d-none");
-    cancelBtn.classList.add("d-none");
+addItem.addEventListener("click", () => {
+    buildForm(selectedItem)
+    selectedCollection.classList.add("d-none")
 })
 
 function addItemtoColleections(items) {
@@ -126,11 +45,11 @@ function elementCreator(element) {
 }
 
 async function buildTable(collectionToGet) {
-    let title = document.getElementById("title");
-    let injectTable = document.getElementById("injectTable");
+    tableTitle = document.getElementById("title");
+    injectTable = document.getElementById("injectTable");
 
     injectTable.innerHTML = "";
-    title.textContent = collectionToGet;
+    tableTitle.textContent = collectionToGet == "SweatShirts" ? "Sweatshirts" : collectionToGet;
 
     let data = []
     collection = db.collection(collectionToGet);
@@ -148,7 +67,6 @@ async function buildTable(collectionToGet) {
 
     let itemsArr = await data.map(obj => Object.entries(obj).map(x => x))
     let thHeadTxtprops = itemsArr[0].map(headTxt => headTxt[0]).sort()
-    console.log(itemsArr);
     thHeadTxtprops.forEach(headItem => {
         let th = elementCreator("th");
         th.setAttribute("scope", "col")
@@ -160,7 +78,6 @@ async function buildTable(collectionToGet) {
 
     itemsArr.forEach((x, idx) => {
         let tr = elementCreator("tr")
-        console.log(idx)
         x.map((_, i) => {
             let td = elementCreator("td");
             td.textContent = itemsArr[idx].sort()[i][1];
@@ -168,27 +85,122 @@ async function buildTable(collectionToGet) {
         })
         tBody.appendChild(tr)
     })
-    console.log(tBody)
-
     tHead.appendChild(trHead);
     Table.appendChild(tBody);
     Table.appendChild(tHead);
     injectTable.appendChild(Table)
 }
-buildTable("Shirts");
 
-let shirtArr = ["Size", "Brand", "Color", "Type", "Material", "Condition", "Logo", "Buttons"],
-    bottomArr = ["Size", "Brand", "Color", "Type", "Material", "Wearability", "Price"],
-    shoesArr = ["Size", "Brand", "Color", "Type", "Logo", "Laces", "Condition", "Wearability"],
-    HatsArr = ["Size", "Brand", "Color", "Logo"],
-    JacketsArr = ["Size", "Season", "Color", "Type", "Material", "Weight"],
-    sweatshirtArr = ["Type", "Brand", "Color", "Logo"],
-    perfumeArr = ["Type", "Brand", "Size", "Origin", "logo"],
-    bagArr = ["Type", "Brand", "Color", "Logo"],
-    blalnketArr = ["Material", "Brand", "Color", "Logo"];
-let injectForm = document.getElementById("injectForm");
 
-function buildForm(arrr, title) {
+function buildForm(test) {
+    injectTable.innerHTML = "";
+    tableTitle.classList.add("d-none");
+    addItem.classList.add("d-none");
+    let formConfig = {
+        "Shirts": {
+            arr: ["Size", "Brand", "Color", "Type", "Material", "Condition", "Logo", "Buttons"],
+            title: "Shirts",
+            obj: {
+                Brand: "",
+                Buttons: "",
+                Color: "",
+                Condition: "",
+                Logo: "",
+                Material: "",
+                Size: "",
+                Type: "",
+            }
+        },
+        "Bottoms": {
+            arr: ["Size", "Brand", "Color", "Type", "Material", "Wearability", "Price"],
+            title: "Bottoms",
+            obj: {
+                Brand: "",
+                Color: "",
+                Material: "",
+                Price: "",
+                Size: "",
+                Type: "",
+                Wearability: "",
+            }
+        },
+        "Shoes": {
+            arr: ["Size", "Brand", "Color", "Type", "Logo", "Laces", "Condition", "Wearability"],
+            title: "Shoes",
+            obj: {
+                Brand: "",
+                Color: "",
+                Condition: "",
+                Laces: "",
+                Logo: "",
+                Size: "",
+                Type: "",
+                Wearability: "",
+            }
+        },
+        "Hats": {
+            arr: ["Size", "Brand", "Color", "Logo"],
+            title: "Hats",
+            obj: {
+                Brand: "",
+                Color: "",
+                Logo: "",
+                Size: "",
+            }
+        },
+        "Jackets": {
+            arr: ["Size", "Season", "Color", "Type", "Material", "Weight"],
+            title: "Jackets",
+            obj: {
+                Color: "",
+                Material: "",
+                Season: "",
+                Size: "",
+                Weight: "",
+            }
+        },
+        "SweatShirts": {
+            arr: ["Type", "Brand", "Color", "Logo"],
+            title: "Sweatshirts",
+            obj: {
+                Brand: "",
+                Color: "",
+                Logo: "",
+                Type: "",
+            }
+        },
+        "Perfumes": {
+            arr: ["Type", "Brand", "Size", "Origin"],
+            title: "Perfumes",
+            obj: {
+                Brand: "",
+                Origin: "",
+                Size: "",
+                Type: "",
+            }
+        },
+        "Bags": {
+            arr: ["Type", "Brand", "Color", "Logo"],
+            title: "Bags",
+            obj: {
+                Brand: "",
+                Color: "",
+                Logo: "",
+                Type: "",
+            }
+        },
+        "Blankets": {
+            arr: ["Material", "Brand", "Color", "Logo"],
+            title: "Blankets",
+            obj: {
+                Brand: "",
+                Color: "",
+                Logo: "",
+                Material: "",
+            }
+        }
+    }
+    let { arr, title, obj } = formConfig[`${test}`]
     injectForm.innerHTML = "";
     injectForm.classList = "pt-3"
 
@@ -200,7 +212,8 @@ function buildForm(arrr, title) {
 
     headerDiv.appendChild(header);
     injectForm.appendChild(headerDiv)
-    arrr.sort().forEach(element => {
+    let number = 0;
+    arr.sort().forEach(element => {
         let div = elementCreator("div");
         div.classList = "mb-3";
 
@@ -211,12 +224,42 @@ function buildForm(arrr, title) {
         let input = elementCreator("input");
         input.classList = "form-control"
         input.setAttribute("type", "text");
-        input.addEventListener("keypress", ({ target: { value } = value } = e) => {
-            console.log(value)
+        input.setAttribute("id", arr.sort()[number++]);
+
+        input.addEventListener("keypress", ( e) => {
+
+            setTimeout(() => {
+                console.log(e.target.value)
+                obj[`${e.target.id}`] = e.target.value;
+            }, 1);
+
         })
         div.appendChild(label);
         div.appendChild(input);
         injectForm.appendChild(div)
     });
+    let addbtn = elementCreator("button")
+    addbtn.classList = "btn btn-primary";
+    addbtn.innerText = "Add";
+    addbtn.addEventListener("click", function () {
+        addItemtoColleections(obj)
+        injectForm.innerHTML = "";
+        buildTable(selectedItem);
+        tableTitle.classList.remove("d-none");
+        addItem.classList.remove("d-none");
+        selectedCollection.classList.remove("d-none")
+    })
+    injectForm.appendChild(addbtn)
+    let cancelbtn = elementCreator("button")
+    cancelbtn.classList = "btn btn-warning";
+    cancelbtn.innerText = "Cancel";
+    cancelbtn.addEventListener("click", function () {
+        injectForm.innerHTML = "";
+        buildTable(selectedItem);
+        tableTitle.classList.remove("d-none");
+        addItem.classList.remove("d-none");
+        selectedCollection.classList.remove("d-none")
+    })
+    injectForm.appendChild(cancelbtn)
 }
-// buildForm(shirtArr, "Shirts")
+buildTable("Shirts");

@@ -16,149 +16,42 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 pt-5">
                 <select class="form-select" aria-label="Default select example" id="selectedCollection">
-                    <option selected>Pick a collection</option>
-                    <option value="Bag">Bags</option>
-                    <option value="Blanket">Blankets</option>
+                    <option value="Bags">Bags</option>
+                    <option value="Blankets">Blankets</option>
                     <option value="Bottoms">Bottoms</option>
                     <option value="Hats">Hats</option>
                     <option value="Jackets">Jackets</option>
-                    <option value="Perfume">Perfumes</option>
-                    <option value="Shirts">Shirts</option>
+                    <option value="Perfumes">Perfumes</option>
+                    <option value="Shirts" selected>Shirts</option>
                     <option value="Shoes">Shoes</option>
-                    <option value="SweatShirts">Sweat Shirts</option>
+                    <option value="SweatShirts">Sweatshirts</option>
                     <option value="TBD">More to come!</option>
                 </select>
             </div>
-
             <div id="injectForm"></div>
-            <!-- ------------------------------------------Bag Form --------------------------------------------------- -->
-            <div class="col-12 d-none pt-3" id="bagForm">
-                <div class="mb-3">
-                    <h1>Bags</h1>
+            <div class="row pt-5">
+                <div class="col-6">
+                    <h1 id="title"></h1>
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Brand</label>
-                    <input type="email" class="form-control" id="bagBrand" aria-describedby="emailHelp">
+                <div class="col-6">
+                    <button class="btn btn-primary" id="addAnItem">Add an Item</button>
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Color</label>
-                    <input type="text" class="form-control" id="bagColor">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Logo</label>
-                    <input type="text" class="form-control" id="bagLogo" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Type</label>
-                    <input type="text" class="form-control" id="bagType">
-                </div>
-                <button type="submit" class="btn btn-primary" id="addBagItem">Submit</button>
             </div>
-            <!-- ------------------------------------------Shirt Form --------------------------------------------------- -->
-            <div class="col-12 d-none pt-3" id="shirtForm">
-                <div class="mb-3">
-                    <h1>Shirts</h1>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Brand</label>
-                    <input type="email" class="form-control" id="brand" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Buttons</label>
-                    <input type="text" class="form-control" id="buttons">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Color</label>
-                    <input type="text" class="form-control" id="color" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Condition</label>
-                    <input type="text" class="form-control" id="condition">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Logo</label>
-                    <input type="email" class="form-control" id="logo" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Material</label>
-                    <input type="text" class="form-control" id="material">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Size</label>
-                    <input type="text" class="form-control" id="size" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Type</label>
-                    <input type="text" class="form-control" id="type">
-                </div>
-                <button type="submit" class="btn btn-primary" id="addItem">Submit</button>
-            </div>
-            <!-- ---------------------------------------------Shoes Form ---------------------------------------------------- -->
-            <div class="col-12 d-none pt-3" id="shoesForm">
-                <div class="mb-3">
-                    <h1>Shoes</h1>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Brand</label>
-                    <input type="email" class="form-control" id="shoesBrand" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Color</label>
-                    <input type="text" class="form-control" id="shoesColor">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Condition</label>
-                    <input type="text" class="form-control" id="shoesCondition">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Laces</label>
-                    <input type="text" class="form-control" id="shoesLaces" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Logo</label>
-                    <input type="email" class="form-control" id="shoesLogo" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Size</label>
-                    <input type="text" class="form-control" id="shoesSize" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Type</label>
-                    <input type="text" class="form-control" id="shoesType">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Wearability</label>
-                    <input type="text" class="form-control" id="shoesWearability">
-                </div>
-                <button type="submit" class="btn btn-primary" id="addShoesItem">Submit</button>
-            </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-warning d-none" id="cancelBtn">Cancel</button>
-            </div>
+            <div id="injectTable"></div>
         </div>
-        <div class="row pt-5">
-            <div class="col-6">
-                <h1 id="title"></h1>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-primary" id="addAnItem">Add an Item</button>
-            </div>
-        </div>
-        <div id="injectTable"></div>
-    </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-        crossorigin="anonymous"></script>
-    <script src="./script/script.js"></script>
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
+        <!-- Optional JavaScript; choose one of the two! -->
+        <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+        <script src="./script/script.js"></script>
+        <!-- Option 2: Separate Popper and Bootstrap JS -->
+        <!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
     -->
