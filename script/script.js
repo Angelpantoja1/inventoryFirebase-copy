@@ -11,15 +11,16 @@ firebase.initializeApp(firebaseConfig);
 
 var db = firebase.firestore();
 
-let collection;
-let selectedItem = "Shirts";
-let injectTable;
-let tableTitle
 let data
+let tableTitle;
+let collection;
+let injectTable;
+let selectedItem = "Shirts";
 
-let selectedCollection = document.getElementById("selectedCollection")
 let addItem = document.getElementById("addAnItem");
 let injectForm = document.getElementById("injectForm");
+let selectedCollection = document.getElementById("selectedCollection")
+
 selectedCollection.addEventListener("change", ({ target } = e) => {
     let { value } = target;
     selectedItem = value
@@ -67,6 +68,7 @@ async function buildTable(collectionToGet) {
 
     let itemsArr = await data.map(obj => Object.entries(obj).map(x => x))
     let thHeadTxtprops = itemsArr[0].map(headTxt => headTxt[0]).sort()
+
     thHeadTxtprops.forEach(headItem => {
         let th = elementCreator("th");
         th.setAttribute("scope", "col")
@@ -91,11 +93,11 @@ async function buildTable(collectionToGet) {
     injectTable.appendChild(Table)
 }
 
-
 function buildForm(title) {
     injectTable.innerHTML = "";
     tableTitle.classList.add("d-none");
     addItem.classList.add("d-none");
+
     let obj =data.sort()[0]
     let arr = Object.entries(obj).map(x => x[0])
     
@@ -104,10 +106,10 @@ function buildForm(title) {
 
     let headerDiv = elementCreator("div")
     headerDiv.classList = "mb-3"
-
+    
     let header = elementCreator("h1");
     header.textContent = title;
-
+    
     headerDiv.appendChild(header);
     injectForm.appendChild(headerDiv)
     let number = 0;
@@ -125,16 +127,15 @@ function buildForm(title) {
         input.setAttribute("id", arr.sort()[number++]);
 
         input.addEventListener("keypress", ( e) => {
-
             setTimeout(() => {
                 obj[`${e.target.id}`] = e.target.value;
             }, 1);
-
         })
         div.appendChild(label);
         div.appendChild(input);
         injectForm.appendChild(div)
     });
+
     let addbtn = elementCreator("button")
     addbtn.classList = "btn btn-primary";
     addbtn.innerText = "Add";
@@ -147,6 +148,7 @@ function buildForm(title) {
         selectedCollection.classList.remove("d-none")
     })
     injectForm.appendChild(addbtn)
+
     let cancelbtn = elementCreator("button")
     cancelbtn.classList = "btn btn-warning";
     cancelbtn.innerText = "Cancel";
