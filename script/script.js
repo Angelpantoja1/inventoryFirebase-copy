@@ -15,6 +15,7 @@ let collection;
 let selectedItem = "Shirts";
 let injectTable;
 let tableTitle
+let data
 
 let selectedCollection = document.getElementById("selectedCollection")
 let addItem = document.getElementById("addAnItem");
@@ -32,7 +33,6 @@ addItem.addEventListener("click", () => {
 function addItemtoColleections(items) {
     collection.add(items)
         .then((docRef) => {
-            console.log("Document written with ID: ", docRef.id);
             buildTable(selectedItem)
         })
         .catch((error) => {
@@ -51,7 +51,7 @@ async function buildTable(collectionToGet) {
     injectTable.innerHTML = "";
     tableTitle.textContent = collectionToGet == "SweatShirts" ? "Sweatshirts" : collectionToGet;
 
-    let data = []
+    data = []
     collection = db.collection(collectionToGet);
     await collection.get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -92,115 +92,13 @@ async function buildTable(collectionToGet) {
 }
 
 
-function buildForm(test) {
+function buildForm(title) {
     injectTable.innerHTML = "";
     tableTitle.classList.add("d-none");
     addItem.classList.add("d-none");
-    let formConfig = {
-        "Shirts": {
-            arr: ["Size", "Brand", "Color", "Type", "Material", "Condition", "Logo", "Buttons"],
-            title: "Shirts",
-            obj: {
-                Brand: "",
-                Buttons: "",
-                Color: "",
-                Condition: "",
-                Logo: "",
-                Material: "",
-                Size: "",
-                Type: "",
-            }
-        },
-        "Bottoms": {
-            arr: ["Size", "Brand", "Color", "Type", "Material", "Wearability", "Price"],
-            title: "Bottoms",
-            obj: {
-                Brand: "",
-                Color: "",
-                Material: "",
-                Price: "",
-                Size: "",
-                Type: "",
-                Wearability: "",
-            }
-        },
-        "Shoes": {
-            arr: ["Size", "Brand", "Color", "Type", "Logo", "Laces", "Condition", "Wearability"],
-            title: "Shoes",
-            obj: {
-                Brand: "",
-                Color: "",
-                Condition: "",
-                Laces: "",
-                Logo: "",
-                Size: "",
-                Type: "",
-                Wearability: "",
-            }
-        },
-        "Hats": {
-            arr: ["Size", "Brand", "Color", "Logo"],
-            title: "Hats",
-            obj: {
-                Brand: "",
-                Color: "",
-                Logo: "",
-                Size: "",
-            }
-        },
-        "Jackets": {
-            arr: ["Size", "Season", "Color", "Type", "Material", "Weight"],
-            title: "Jackets",
-            obj: {
-                Color: "",
-                Material: "",
-                Season: "",
-                Size: "",
-                Weight: "",
-            }
-        },
-        "SweatShirts": {
-            arr: ["Type", "Brand", "Color", "Logo"],
-            title: "Sweatshirts",
-            obj: {
-                Brand: "",
-                Color: "",
-                Logo: "",
-                Type: "",
-            }
-        },
-        "Perfumes": {
-            arr: ["Type", "Brand", "Size", "Origin"],
-            title: "Perfumes",
-            obj: {
-                Brand: "",
-                Origin: "",
-                Size: "",
-                Type: "",
-            }
-        },
-        "Bags": {
-            arr: ["Type", "Brand", "Color", "Logo"],
-            title: "Bags",
-            obj: {
-                Brand: "",
-                Color: "",
-                Logo: "",
-                Type: "",
-            }
-        },
-        "Blankets": {
-            arr: ["Material", "Brand", "Color", "Logo"],
-            title: "Blankets",
-            obj: {
-                Brand: "",
-                Color: "",
-                Logo: "",
-                Material: "",
-            }
-        }
-    }
-    let { arr, title, obj } = formConfig[`${test}`]
+    let obj =data.sort()[0]
+    let arr = Object.entries(obj).map(x => x[0])
+    
     injectForm.innerHTML = "";
     injectForm.classList = "pt-3"
 
@@ -229,7 +127,6 @@ function buildForm(test) {
         input.addEventListener("keypress", ( e) => {
 
             setTimeout(() => {
-                console.log(e.target.value)
                 obj[`${e.target.id}`] = e.target.value;
             }, 1);
 
